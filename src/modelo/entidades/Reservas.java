@@ -68,9 +68,17 @@ public class Reservas {
 	
 	//Este método 'atualizará' as datas de entrada e de saída da reserva.
 	
-	public void atualDatas (Date dataEntrada, Date dataSaida) {
+	public String atualDatas (Date dataEntrada, Date dataSaida) {
+		Date hoje = new Date(); //Atribuir à variável 'hoje' a data de hoje!
+		if (dataEntrada.before(hoje) || dataSaida.before(hoje)) {
+			return "a(s) data(s) informada(s) é(são) anterior(es) ao dia de hoje!";
+		}
+		if (!dataSaida.after(dataEntrada)) {
+			return "a data de saída precisa ser APÓS a data de entrada!";
+		}
 		this.dataEntrada = dataEntrada;
 		this.dataSaida = dataSaida;
+		return null; //Se não houver erros (testados acima), o 'return' deverá ser "null".
 	}
 	
 	//Implementando o 'ToString', tratando-o como uma 'sobreposição', o que de fato ele é.
