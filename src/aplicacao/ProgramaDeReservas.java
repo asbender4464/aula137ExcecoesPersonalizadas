@@ -8,10 +8,7 @@ import java.util.Scanner;
 import modelo.entidades.Reservas;
 import modelo.excecoes.DominioExcecao;
 
-//IMPORTANTE: este projeto terá 4 versões no Git Hub.
-//Nesta 3a versão há o tratamento das exceções com "exceções nativas" mas NÃO PERSONALIZADAS.
-//aS EXCEÇÕES PERSONALIZADAS estarão na 4a versão.
-//Consulte-as para observar os comentários.
+//Esta é a versão FINAL.
 
 public class ProgramaDeReservas {
 
@@ -56,7 +53,6 @@ public class ProgramaDeReservas {
 		catch (RuntimeException e1) {
 			System.out.println("Ooops! Ocorreu um erro inesperado!");
 		}
-		
 		sc.close();
 	}
 }

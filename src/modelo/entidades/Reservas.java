@@ -33,7 +33,6 @@ public class Reservas {
 		this.dataEntrada = dataEntrada;
 		this.dataSaida = dataSaida;
 	}
-
 	
 	//GETs e SEts
 	public Integer getQuarto() {
@@ -76,11 +75,6 @@ public class Reservas {
 	public void atualDatas (Date dataEntrada, Date dataSaida) throws DominioExcecao {
 		Date hoje = new Date();
 		if (dataEntrada.before(hoje) || dataSaida.before(hoje)) {
-			/*
-			 * A exceção lançada abaixo, 'IllegalArgumentException' é nativa do Java e testa
-			 * a validade dos argumentos do Método. Se a sequencialidade das datas estiver incorreta,
-			 * naturalmente os argumentos serão inválidos!
-			 */
 			throw new DominioExcecao ("a(s) data(s) informada(s) é(são) anterior(es) ao dia de hoje!");
 		}
 		if (!dataSaida.after(dataEntrada)) {
