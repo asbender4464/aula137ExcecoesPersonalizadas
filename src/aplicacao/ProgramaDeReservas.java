@@ -7,49 +7,47 @@ import java.util.Scanner;
 
 import modelo.entidades.Reservas;
 
-//IMPORTANTE: esta solução é considerada MUITO RUIM porque a 'validação das datas' está DENTRO da Classe Principal,
-//enquanto deveria estar na "Classe Reservas". Lembra-te: POO! E o objeto é a 'reserva'!
-//Trata-se de um problema grave de DELEGAÇÃO. Quem deve saber sobre a RESERVA é a própria RESERVA.
+//IMPORTANTE: este projeto terá 4 versões no Git Hub.
+//Nesta 3a versão há o tratamento das exceções com "exceções nativas" mas NÃO PERSONALIZADAS.
+//aS EXCEÇÕES PERSONALIZADAS estarão na 4a versão.
+//Consulte-as para observar os comentários.
 
 public class ProgramaDeReservas {
 
-	public static void main(String[] args) throws ParseException {
+	public static void main(String[] args) {
 
 		Scanner sc = new Scanner(System.in);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
-		System.out.print("Número do quarto: ");
-		int quarto = sc.nextInt();
-		System.out.print("Data da entrada (dd/mm/yyyy): ");
-		Date dataEntrada = sdf.parse(sc.next());
-		System.out.print("Data da saída (dd/mm/yyyy): ");
-		Date dataSaida = sdf.parse(sc.next());
-		
-			//Testando se a 'data de entrada' não é posterior à 'data de saída'.
-			//NOTA: observe a função "booleana" que testa se uma data é posterior a outra ou não ("v" ou "f")
-			if (!dataSaida.after(dataEntrada)) {
-				System.out.println("Erro na reserva: a data de saída precisa ser APÓS a data de entrada!");
-			}
-			else { //Somenta após a validação das datas a Classe 'Reservas' é instanciada.
-				Reservas reservas = new Reservas(quarto, dataEntrada, dataSaida);
-				System.out.println("Reserva: " + reservas); //Sobreposto por String toString
+		try {
+			System.out.print("Número do quarto: ");
+			int quarto = sc.nextInt();
+			System.out.print("Data da entrada (dd/mm/yyyy): ");
+			Date dataEntrada = sdf.parse(sc.next());
+			System.out.print("Data da saída (dd/mm/yyyy): ");
+			Date dataSaida = sdf.parse(sc.next());
 			
-		System.out.println();
-		System.out.println("Informe os dados da atualização da reserva: ");
-		System.out.print("Data da entrada (dd/mm/yyyy): ");
-		dataEntrada = sdf.parse(sc.next());
-		System.out.print("Data da saída (dd/mm/yyyy): ");
-		dataSaida = sdf.parse(sc.next());
+			Reservas reservas = new Reservas(quarto, dataEntrada, dataSaida);
+			System.out.println("Reserva: " + reservas);
 		
-		//Chamando o método para atualização de datas "atualDatas", definido na Classe Reservas.
-		String erro = reservas.atualDatas(dataEntrada, dataSaida);
-			if (erro != null) {
-				System.out.println("Erro na reserva: " + erro);
-			}
-			else {
-			System.out.println("Reserva: " + reservas); //Sobreposto por String toString
-			}
+			System.out.println();
+			System.out.println("Informe os dados da atualização da reserva: ");
+			System.out.print("Data da entrada (dd/mm/yyyy): ");
+			dataEntrada = sdf.parse(sc.next());
+			System.out.print("Data da saída (dd/mm/yyyy): ");
+			dataSaida = sdf.parse(sc.next());
+	
+			reservas.atualDatas(dataEntrada, dataSaida);
+			System.out.println("Reserva: " + reservas);
 		}
+		catch (ParseException e1) { //Trata o problema do "sdf.parse", o qual o compilador reclamaria.
+			System.out.println("Formato da data é inválido!");
+		}
+		catch (IllegalArgumentException e1) {
+			//Note que "e1.getMessage()" abaixo captura à mensagem que digitada como alerta no caso da exceção.
+			System.out.println("Erro na reserva: " + e1.getMessage()); 
+		}
+		
 		sc.close();
 	}
 }
