@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import modelo.excecoes.DominioExcecao;
+
 public class Reservas {
 	
 	//Atributos
@@ -17,7 +19,16 @@ public class Reservas {
 	public Reservas() {
 	}
 	
-	public Reservas(Integer quarto, Date dataEntrada, Date dataSaida) {
+	/*
+	 * No Construtor abaixo, 'Reservas', haverá a propagação da exceção ('throws DominioExcecao'),
+	 * pois os erros serão tratados nos "catchs" da Classe principal, 'Programa de Reservas'.
+	 * "DominioExcecao" é a 'exceção PERSONALIZADA'.
+	 * Logo, o Construtor 'Reservas' pode LANÇAR exceções!
+	 */
+	public Reservas(Integer quarto, Date dataEntrada, Date dataSaida) throws DominioExcecao {
+		if (!dataSaida.after(dataEntrada)) {
+			throw new DominioExcecao ("a data de saída precisa ser APÓS a data de entrada!");
+		}
 		this.quarto = quarto;
 		this.dataEntrada = dataEntrada;
 		this.dataSaida = dataSaida;
@@ -56,7 +67,13 @@ public class Reservas {
 		return TimeUnit.DAYS.convert(diferenca, TimeUnit.MILLISECONDS);
 	}
 	
-	public void atualDatas (Date dataEntrada, Date dataSaida) {
+	/*
+	 * No Método abaixo, 'atualDatas', haverá a propagação da exceção ('throws DominioExcecao'),
+	 * pois os erros serão tratados nos "catchs" da Classe principal, 'Programa de Reservas'.
+	 * "DominioExcecao" é a 'exceção PERSONALIZADA'.
+	 * Logo, o Método 'atualDatas' pode LANÇAR exceções!
+	 */
+	public void atualDatas (Date dataEntrada, Date dataSaida) throws DominioExcecao {
 		Date hoje = new Date();
 		if (dataEntrada.before(hoje) || dataSaida.before(hoje)) {
 			/*
@@ -64,10 +81,10 @@ public class Reservas {
 			 * a validade dos argumentos do Método. Se a sequencialidade das datas estiver incorreta,
 			 * naturalmente os argumentos serão inválidos!
 			 */
-			throw new IllegalArgumentException("a(s) data(s) informada(s) é(são) anterior(es) ao dia de hoje!");
+			throw new DominioExcecao ("a(s) data(s) informada(s) é(são) anterior(es) ao dia de hoje!");
 		}
 		if (!dataSaida.after(dataEntrada)) {
-			throw new IllegalArgumentException ("a data de saída precisa ser APÓS a data de entrada!");
+			throw new DominioExcecao ("a data de saída precisa ser APÓS a data de entrada!");
 		}
 		this.dataEntrada = dataEntrada;
 		this.dataSaida = dataSaida;

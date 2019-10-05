@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Scanner;
 
 import modelo.entidades.Reservas;
+import modelo.excecoes.DominioExcecao;
 
 //IMPORTANTE: este projeto terá 4 versões no Git Hub.
 //Nesta 3a versão há o tratamento das exceções com "exceções nativas" mas NÃO PERSONALIZADAS.
@@ -43,9 +44,17 @@ public class ProgramaDeReservas {
 		catch (ParseException e1) { //Trata o problema do "sdf.parse", o qual o compilador reclamaria.
 			System.out.println("Formato da data é inválido!");
 		}
-		catch (IllegalArgumentException e1) {
+		catch (DominioExcecao e1) {
 			//Note que "e1.getMessage()" abaixo captura à mensagem que digitada como alerta no caso da exceção.
 			System.out.println("Erro na reserva: " + e1.getMessage()); 
+		}
+		/*
+		 * O 'catch' abaixo captura "QUALQUER ERRO INESPERADO", e por conseguinte não tratado,
+		 * imprime a mensagem definida no código e encerra o programa, não deixando o mesmo "quebrar".
+		 * Isso também é um caso/exemplo de UPCASTING.
+		 */
+		catch (RuntimeException e1) {
+			System.out.println("Ooops! Ocorreu um erro inesperado!");
 		}
 		
 		sc.close();
